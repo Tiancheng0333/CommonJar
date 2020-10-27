@@ -16,5 +16,14 @@ public class DateDemo {
         String format = dateFormat.format(date);
         format+=" 00:00:00";
         System.out.println(format);
+        System.out.println("=============");
+        System.out.println(date.getTime());
+        Date date1=new Date(date.getTime());
+        System.out.println(date1);
+        long l = date.getTime() - System.currentTimeMillis();
+        if(l<0){
+            System.out.println(l);
+        }
+        System.out.println(System.currentTimeMillis());
     }
 }
