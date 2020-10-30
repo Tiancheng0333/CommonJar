@@ -1,7 +1,6 @@
 package com.enic.RestClientTest;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tuniu.operation.platform.base.rest.RestClient;
 import com.tuniu.operation.platform.base.rest.RestException;
 import sun.misc.BASE64Encoder;
 
@@ -15,7 +14,10 @@ public class GetUserInfoRestClientTest {
         BASE64Encoder encoder=new BASE64Encoder();
         String encode = encoder.encode(JSONObject.toJSON(map).toString().getBytes());
         System.out.println(encode);
-        RestClient restClient=new RestClient("mob-dist.api.tuniu.org/dist/user/getUserInfoByPValue",encode);
-        System.out.println(restClient.execute());
+        System.out.println("============");
+        System.out.println("queryJibaoInfo".toUpperCase());
+        String s="110101199010282338";
+        System.out.println(s.substring(10, 12));
+        System.out.println(s.substring(12, 14));
     }
 }
