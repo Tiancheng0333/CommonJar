@@ -15,7 +15,7 @@ public class GetUserInfoRestClientTest {
         String encode = encoder.encode(JSONObject.toJSON(map).toString().getBytes());
         System.out.println(encode);
         System.out.println("============");
-        System.out.println("queryJibaoInfo".toUpperCase());
+        System.out.println("viewTouristTemplate".toUpperCase());
         String s="110101199010282338";
         System.out.println(s.substring(10, 12));
         System.out.println(s.substring(12, 14));
