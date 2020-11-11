@@ -23,6 +23,14 @@ public class MyListTest {
         System.out.println(msl.firstNode());
         System.out.println("FirstNode Success");
         System.out.println(msl.getHead());
-
+        System.out.println("===============");
+        //330206197609135632
+        //13062527068
+        String pspId="330206197609135632";
+        String tel="13062527068";
+        String card="ghhh12345";
+        System.out.println(pspId.substring(0,pspId.length()-4 ) + "****");
+        String encodeTel=tel.substring(0,3)+"****"+tel.substring(7);
+        System.out.println(encodeTel);
     }
 }
