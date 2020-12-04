@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>JAM Validator</title>
+    <style>
+        #wholepage {
+            width:95%;
+            position:relative;
+            margin:5px;
+        }
+
+        #column1 {
+            width: 25%;
+            display:inline-block;
+            position:absolute;
+            margin:5px;
+        }
+
+        #column2 {
+            width: 60%;
+            left:35%;
+            position:absolute;
+            margin:5px;
+        }
+
+        #exercises {
+            float:left
+            width:20%;
+            height:60px;
+        }
+
+        #result{
+            position:relative;
+            width:100%;
+            margin:5px;
+            height:100%;
+            overflow:scroll;
+            /*height:500px;*/
+            /*border-style:dotted;
+            border-width:thin;
+            border-color:black;*/
+        }
+
+        #resultText{
+            margin:1px;
+            white-space: pre-line;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #submitform {
+            margin:5px;
+        }
+
+        .headerbar {
+            overflow: hidden;
+            background-color: #333;
+            color:white;
+            border-style:solid;
+            border-width:2px;
+            border-color:#4CAF50;
+            padding: 2px;
+            margin-bottom:5px;
+        }
+
+        .footer {
+            overflow: hidden;
+            background-color: #333;
+            color:white;
+            border-style:solid;
+            border-width:2px;
+            border-color:#4CAF50;
+            padding: 2px;
+            margin-bottom:5px;
+            position:fixed;
+            bottom:0;
+            width:100%;
+        }
+
+        #sub{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #4CAF50;
+            color:#FFFFFF;
+            text-align: center;
+            padding: 8px 6px;
+            text-decoration: none;
+            font-size: 14px;
+            border-style:solid;
+            border-width:1px;
+            border-color:black;
+            border-radius:4px;
+        }
+
+        .plain{
+            font-family: Arial, Helvetica, sans-serif;
+            margin-left:5px;
+        }
+
+        #alabel{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #666666;
+            color:#FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            border-style:solid;
+            border-width:1px;
+            border-color:black;
+            border-radius:1px;
+            padding: 8px 6px;
+            margin:5px;
+            /*  margin:5px;
+              padding: 8px 6px;
+              text-decoration: none;*/
+        }
+
+        button:active{
+            background-color: #444444;
+        }
+
+        button:hover{
+            background-color: #999999;
+        }
+
+        button:focus{
+            background-color: #999999;
+            border-style:solid;
+            border-width:1.5px;
+            border-color:black;
+            border-radius:4px;
+        }
+
+        .sub{
+            position:relative;
+            top:10px;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 200px;
+            background-color: #0;
+        }
+
+        li a {
+            display: block;
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+        /* Change the link color on hover */
+        li a:hover {
+            background-color: #555;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="headerbar">
+    <h1>Jam Validator</h1>
+</div>
+
+<div id="wholepage">
+    <div id="column1">
+
+        <h4>Available Assignments</h4>
+
+        <div id="exercises">
+				<span> <!-- <label class="exs" th:id="${assignment.id}" th:text="${assignment.name}"></label> -->
+					<label id="alabel" class="exs">Assignment 1</label>
+				</span><span> <!-- <label class="exs" th:id="${assignment.id}" th:text="${assignment.name}"></label> -->
+					<label id="alabel" class="exs">Assignment 2</label>
+				</span><span> <!-- <label class="exs" th:id="${assignment.id}" th:text="${assignment.name}"></label> -->
+					<label id="alabel" class="exs">Assignment 3</label>
+				</span>
+        </div>
+
+        <form id="submitform">
+            <input id="sub" type="submit" value="Select Zip File"></input><br>
+            <br>
+            <!-- 	<label for="email"></label>
+    <input type="email" id="email" value="email address"> -->
+        </form>
+
+        <span>You must refresh the page before attempting another
+				validation.</span><br>
+        <br>
+        <!-- <button id="submit">Submit</button> -->
+        <button class="plain" onClick="window.location.reload();">Refresh</button>
+
+    </div>
+    <div id="column2">
+        <div id="result"></div>
+    </div>
+</div>
+
+</body>
+<script crossorigin="anonymous" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" src="https://lib.baomitu.com/jquery/3.5.1/jquery.js"></script>
+<script>
+    var exselect = null;
+
+
+    $(document).ready(function(){
+        $(".exs").click(function(event){
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            exselect = event.target.id;
+        });
+
+        $("#sub").click(function() {
+
+            var input = $(document.createElement("input"));
+            input.attr("type", "file");
+            input.attr("id", "fileselect");
+            input.css("display", "none");
+            $(document.body).append(input);
+
+            $(input).on("change", function(event) {
+                var fileip = document.getElementById("fileselect");
+                var fn = fileip.files[0];
+
+                var formData = new FormData();
+
+                formData.append("file", fn);
+                //var emailad = document.getElementById("email").value;
+                //formData.append("emailadd", emailad);
+                formData.append("idrequired", false);
+
+                $("#result").html("");
+
+                $("submit").prop("disabled", "true");
+
+                $.ajax({
+                    method: "POST",
+                    enctype: 'multipart/form-data',
+                    //url: "https://localhost:8443/validator",
+                    url: "https://ianskenny.net:8443/validator",
+                    //data: JSON.stringify('{"test":"iank"}'),
+                    crossDomain:true,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+
+                        $("#result").html(data);
+                        //console.log("SUCCESS : ", data);
+                        $("submit").prop("disabled", "false");
+
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+            });
+
+            $(input.trigger("click"));
+
+            return false;
+        });
+        /*
+        $("#submit").click(function() {
+
+            var input = $(document.createElement("input"));
+            input.attr("type", "file");
+            input.attr("id", "fileselect");
+            input.css("display", "none");
+            $(document.body).append(input);
+
+            $(input).on("change", function(event) {
+                var fileip = document.getElementById("fileselect");
+                var fn = fileip.files[0];
+
+                var formData = new FormData();
+
+                formData.append("file", fn);
+                formData.append("exid", exselect.toString());
+
+                $("submit").prop("disabled", "true");
+
+                $.ajax({
+                    method: "POST",
+                    enctype: 'multipart/form-data',
+                    url: "http://localhost:8086/validate",
+                    //data: JSON.stringify('{"test":"iank"}'),
+                    crossDomain:true,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+
+                        $("#result").html(data);
+                        //console.log("SUCCESS : ", data);
+                        $("submit").prop("disabled", "false");
+
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+            });
+
+            $(input.trigger("click"));
+
+            return false;
+        });
+        */
+    });
+
+</script>
+<div class="footer">Ian Kenny 2020. This site stores none of your
+    data.</div>
+
+</html>
