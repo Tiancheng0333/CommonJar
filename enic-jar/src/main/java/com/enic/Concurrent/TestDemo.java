@@ -52,7 +52,7 @@ public class TestDemo {
             bt.start();
             Thread.sleep(2000);
             at.start();
-            at.join();
+            //at.join();
         } catch (Exception e) {
             System.out.println("Exception from main");
         }
