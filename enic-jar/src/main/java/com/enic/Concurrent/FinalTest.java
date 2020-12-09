@@ -25,11 +25,24 @@ public class FinalTest {
     }
     public static void main(String[] args) {
 
-         new Thread(() -> {
+/*         new Thread(() -> {
             while (!flag){
                 reder(write());
             }
-        }).start();
+        }).start();*/
+        for (int i = 0; i < 3; i++) {
+           new Thread(new Runnable() {
+               @Override
+               public void run() {
+                   threadLoop();
+               }
+           }) .start();
+        }
+    }
 
+    static void threadLoop(){
+        for (int i = 0; i < 5; i++) {
+            System.out.println("当前线程{}"+Thread.currentThread().getName());
+        }
     }
 }
