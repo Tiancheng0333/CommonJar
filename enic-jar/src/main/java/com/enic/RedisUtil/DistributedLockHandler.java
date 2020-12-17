@@ -12,8 +12,7 @@ import java.util.concurrent.locks.LockSupport;
 /**
 * 利用redis实现分布式锁
 * @version v1.0.0
-* @author jibang
-* @date 2019年10月16日 下午2:01:24
+* @author wangccc
  */
 @Component
 public class DistributedLockHandler {
