@@ -9,6 +9,11 @@ import java.lang.reflect.Method;
 public class MyClassLoader002 extends ClassLoader {
     private String classPath;
 
+
+    public MyClassLoader002(){
+
+    }
+
     public MyClassLoader002(String classPath){
         this.classPath=classPath;
     }

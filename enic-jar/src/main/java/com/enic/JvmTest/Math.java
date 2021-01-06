@@ -3,6 +3,9 @@ package com.enic.JvmTest;
 import org.apache.tomcat.jni.User;
 
 public class Math {
+
+
+
     public static final int initData = 666;
     public static User user = new User();
 

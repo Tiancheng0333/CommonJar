@@ -10,6 +10,10 @@ import java.lang.reflect.Method;
 public class MyClassLoader001 extends ClassLoader {
     private String classPath;
 
+
+    public MyClassLoader001(){
+        super();
+    }
     public MyClassLoader001(String classPath) {
         this.classPath = classPath;
     }
@@ -34,11 +38,15 @@ public class MyClassLoader001 extends ClassLoader {
         }
     }
 
+    public void sout(){
+        System.out.println("证明注入成功");
+    }
+
     public static void main(String args[]) throws Exception {
         //初始化自定义类加载器，会先初始化父类ClassLoader，其中会把自定义类加载器的父加载器设置为应用程序类加载器AppClassLoader
         MyClassLoader001 classLoader = new MyClassLoader001("/Users/wangcheng10/Downloads");
         //D盘创建 test/com/tuling/jvm 几级目录，将User类的复制类User1.class丢入该目录
-        Class clazz = classLoader.loadClass("com.enic.JvmTest.User");
+        Class clazz = classLoader.loadClass("co.enic.JvmTest.User");
         Object obj = clazz.newInstance();
         Method method = clazz.getDeclaredMethod("describe", null);
         method.invoke(obj, null);

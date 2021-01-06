@@ -11,12 +11,16 @@ import java.util.Calendar;
 public class RestClientTest {
 
     public static final String RBZ_URL="http://admin.tuniu.org/api/rbzV3/app/filter";
-    public static final String TOF_URL="http://public-api.tof.tuniu.org/tof/manage/order/head/query";
+    public static final String TOF_URL="public-api.ord.tof.tuniu.org/tof/manage/resource/oasia/hotel/htmlForTaiKe";
 
     public static void main(String[] args) throws RestException {
 
         String orderId="1229993947";
-        String param="{\"orderId\":"+orderId+"}";
+        String param="{\n" +
+                "\"orderId\":1232717925,\n" +
+                "\"productId\":320002890,\n" +
+                "\"departDate\":\"2021-01-23\"\n" +
+                "}";
         BASE64Encoder encoder=new BASE64Encoder();
         String encode = encoder.encode(JSONObject.toJSON(param).toString().getBytes());
         RestClient restClient=new RestClient(TOF_URL,encode);

@@ -1,5 +1,6 @@
 package com.enic.Polymorphic;
 
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +15,7 @@ public class TestController {
     private IBusiness Business;
 
     @RequestMapping(value = "/poly/test", method = RequestMethod.GET)
-    public Integer tryDeal() {
-        return Business.calForAvg();
+    public String tryDeal(@Param("name") String name) {
+        return Business.calForAvg()+name;
     }
 }
