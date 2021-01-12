@@ -74,7 +74,7 @@ public class CarInfoController {
         //=======================picInfo开始=============================
         JSONObject picInfo = (JSONObject) o.get("pic_info");
         JSONObject wg = (JSONObject) picInfo.get("wg");
-        JSONObject ns = (JSONObject) picInfo.get("ns");
+        JSONObject ns = (JSONObject) picInfo.get("kj");
         Object name = wg.get("name");
         Object picUrl = wg.get("cover_pic_url");
         Object name1 = ns.get("name");
@@ -83,7 +83,7 @@ public class CarInfoController {
         res.setWgPicUrl(String.valueOf(picUrl));
         res.setNsName(String.valueOf(name1));
         res.setNsPicUrl(String.valueOf(nsUrl));
-        return res.toString();
+        return res;
     }
 
 

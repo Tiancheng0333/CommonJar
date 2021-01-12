@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QueryCar-C</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h3>
+                QueryCar-C 汽车信息查询
+            </h3>
+            <form role="form">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">CarType 车辆类型</label><input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入具体车辆型号-例如奥迪A3/雷凌/保时捷718"/>
+                </div>
+                <button type="submit" class="btn btn-default" id="queryCar">查询</button>
+            </form>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        归属
+                    </th>
+                    <th>
+                        名称
+                    </th>
+                    <th>
+                        售价区间
+                    </th>
+                    <th>
+                        款式
+                    </th>
+                    <th>
+                        最大功率
+                    </th>
+                    <th>
+                        车身结构
+                    </th>
+                    <th>
+                        发动机
+                    </th>
+                    <th>
+                        变速箱
+                    </th>
+                    <th>
+                        售价
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="carTr">
+                <tr class="warning">
+                    <td id="t1">
+
+                    </td>
+                    <td id="t2">
+
+                    </td>
+                    <td id="t3" >
+
+                    </td>
+                    <td id="t4">
+
+                    </td>
+                    <td id="t5">
+
+                    </td>
+                    <td id="t6">
+
+                    </td>
+                    <td id="t7">
+
+                    </td>
+                    <td id="t8">
+
+                    </td>
+                    <td id="t9">
+
+                    </td>
+                </tr>
+                <tr class="info">
+                    <td id="s1">
+
+                    </td>
+                    <td id="s2">
+
+                    </td>
+                    <td id="s3" >
+
+                    </td>
+                    <td id="s4">
+
+                    </td>
+                    <td id="s5">
+
+                    </td>
+                    <td id="s6">
+
+                    </td>
+                    <td id="s7">
+
+                    </td>
+                    <td id="s8">
+
+                    </td>
+                    <td id="s9">
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="carousel slide" id="carousel-808063">
+                <ol class="carousel-indicators">
+                    <li class="active" data-slide-to="0" data-target="#carousel-808063">
+                    </li>
+                    <li data-slide-to="1" data-target="#carousel-808063">
+                    </li>
+
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img id="wgimg" alt="" src="https://p1-dcd.byteimg.com/img/tos-cn-i-0000/bd166b9e48454b83946ebc773c9ad92b~tplv-resize:640:0.png" />
+                        <div class="carousel-caption">
+                            <h4>
+                                <label id="wg"></label>
+                            </h4>
+                            <p>
+                                <label id="seriesName"></label>
+                           </p>
+                            <p>
+                                <label id="seriesType"></label>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img id="kjimg" alt="" src="https://p1-dcd.byteimg.com/img/tos-cn-i-0000/bd166b9e48454b83946ebc773c9ad92b~tplv-resize:640:0.png" />
+
+                        <div class="carousel-caption">
+                            <h4>
+                                <label id="kj"></label>
+                            </h4>
+                            <p>
+                                <label id="seriesName1"></label>
+                            </p>
+                            <p>
+                                <label id="seriesType1"></label>
+                            </p>
+                        </div>
+                    </div>
+
+                </div> <a class="left carousel-control" href="#carousel-808063" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-808063" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#queryCar").click(function () {
+        // 使用 jquery 中的 ajax 发请求
+        $.ajax({
+            // 设置请求方法
+            method: "GET",
+            // 请求地址
+            url: "http://49.234.63.219:8080/query/car",
+
+            // 配置发送请求数据格式，默认 urlencoded 值 如若发送 formData 数据，属性改为 false
+            contentType: "application/x-www-form-urlencoded",
+
+            // 请求数据
+            data: {
+                keyWord:$("#exampleInputEmail1").val()
+            },
+            // 配置接受数据格式 默认 json
+            dataType: "json",
+
+            // 请求成功
+            success: function (res) {
+                $("#wg").text(res.wgName);
+                $("#seriesName").text(res.seriesName);
+                $("#seriesType").text(res.seriesType);
+                $("#kj").text(res.nsName);
+                $("#seriesName1").text(res.seriesName);
+                $("#seriesType1").text(res.seriesType);
+                $("#wgimg").attr("src",res.wgPicUrl);
+                $("#kjimg").attr("src",res.nsPicUrl);
+                $("#t1").text(res.origin);
+                $("#t2").text(res.seriesName);
+                $("#t3").text(res.agentPrice);
+                $("#t4").text(res.carsGroup[0].carName);
+                $("#t5").text(res.carConfigs[0].value);
+                $("#t6").text(res.carConfigs[1].value);
+                $("#t7").text(res.carConfigs[2].value);
+                $("#t8").text(res.carConfigs[3].value);
+                $("#t9").text(res.carsGroup[0].price);
+                $("#s1").text(res.origin);
+                $("#s2").text(res.seriesName);
+                $("#s3").text(res.agentPrice);
+                $("#s4").text(res.carsGroup[1].carName);
+                $("#s5").text(res.carConfigs[0].value);
+                $("#s6").text(res.carConfigs[1].value);
+                $("#s7").text(res.carConfigs[2].value);
+                $("#s8").text(res.carConfigs[3].value);
+                $("#s9").text(res.carsGroup[1].price);
+/*                var $tr = $("<tr>"+
+                    "<td>"+res.origin+"</td>"+
+                    "<td>"+res.seriesName+"</td>"+
+                    "<td>"+tel+"</td>"+
+                    "<td>"+tel+"</td>"+
+                    "<td>"+tel+"</td>"+
+                    "<td>"+tel+"</td>"+
+                    "<td>"+tel+"</td>"+
+                    "<td>"+tel+"</td>"+
+                    "<td>"+tel+"</td>"+
+                    +"</tr>");
+                var $table = $("#carTr");
+                for (let i = 0; i < res.carsGroup.length; i++) {
+                    $table.append($tr);
+                }*/
+            }
+        })
+    })
+</script>
+</body>
+</html>
