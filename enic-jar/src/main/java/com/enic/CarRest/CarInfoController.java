@@ -30,9 +30,19 @@ public class CarInfoController {
         String get = sendGet(apiUrl);
         JSONObject parse = (JSONObject)JSONObject.parse(get);
         JSONArray object = (JSONArray) parse.get("data");
+        CarResponse res=new CarResponse();
         JSONObject o = (JSONObject)object.get(0);
         JSONObject display = (JSONObject)o.get("display");
-        CarResponse res=new CarResponse();
+        JSONArray configParams = (JSONArray) display.get("config_params");
+        List<CarConfig> configs=new ArrayList<>();
+        for (Object configParam : configParams) {
+            JSONObject param = (JSONObject) configParam;
+            CarConfig carConfig=new CarConfig();
+            carConfig.setLabel(String.valueOf(param.get("label")));
+            carConfig.setValue(String.valueOf(param.get("value")));
+            configs.add(carConfig);
+        }
+        res.setCarConfigs(configs);
         //===========================display区域==============================
         Object origin = display.get("origin");
         Object agentPrice = display.get("agent_price");
