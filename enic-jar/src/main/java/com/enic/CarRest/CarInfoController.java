@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,9 @@ public class CarInfoController {
     @RequestMapping(value = "/car",method = RequestMethod.GET)
     public Object queryCarInfo(CarParam carParam) throws Exception {
         String urlTest="https://www.dongchedi.com/motor/searchapi/search_content/?keyword=%E5%A5%A5%E8%BF%AAA4l&offset=0&count=10&cur_tab=1&city_name=%E5%8D%97%E4%BA%AC&motor_source=pc&format=json";
-        String apiUrl = url + carParam.getKeyWord() + "&offset=0&count=10&cur_tab=1&city_name=南京&motor_source=pc&format=json";
-        String get = sendGet(urlTest);
+        String encode = URLEncoder.encode(carParam.getKeyWord(), "utf-8");
+        String apiUrl = url + encode + "&offset=0&count=10&cur_tab=1&city_name=%E5%8D%97%E4%BA%AC&motor_source=pc&format=json";
+        String get = sendGet(apiUrl);
         JSONObject parse = (JSONObject)JSONObject.parse(get);
         JSONArray object = (JSONArray) parse.get("data");
         JSONObject o = (JSONObject)object.get(0);
@@ -34,6 +36,9 @@ public class CarInfoController {
         //===========================display区域==============================
         Object origin = display.get("origin");
         Object agentPrice = display.get("agent_price");
+        if(agentPrice==null){
+            return "输入格式不正确,请确认何种车型!老王thank you~";
+        }
         Object seriesName = display.get("series_name");
         Object seriesType = display.get("series_type");
         res.setOrigin(String.valueOf(origin));
