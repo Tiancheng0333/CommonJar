@@ -21,11 +21,21 @@
             </h3>
             <form role="form">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">CarType 车辆类型</label><input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入具体车辆型号-例如奥迪A3/雷凌/保时捷718"/>
+                    <label for="exampleInputEmail1">CarType 车辆类型</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入具体车辆型号-例如奥迪A3/雷凌/保时捷718"/>
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <div class="btn-group">
+                                <button class="btn btn-default">输入推荐</button> <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+                                <ul class="dropdown-menu" id="ulid">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-default" id="queryCar">查询</button>
+                <button type="button" class="btn btn-default" id="queryCar">查询</button>
             </form>
-            <table class="table">
+            <table class="table" id="tableid" hidden>
                 <thead>
                 <tr>
                     <th>
@@ -117,11 +127,11 @@
                     </td>
                 </tr>
                 </tbody>
-            </table>
+            </table >
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container" id="imgid" hidden>
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="carousel slide" id="carousel-808063">
@@ -134,7 +144,7 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="item active">
-                        <img id="wgimg" alt="" src="https://p1-dcd.byteimg.com/img/tos-cn-i-0000/bd166b9e48454b83946ebc773c9ad92b~tplv-resize:640:0.png" />
+                        <img id="wgimg" alt="" src="" />
                         <div class="carousel-caption">
                             <h4>
                                 <label id="wg"></label>
@@ -148,7 +158,7 @@
                         </div>
                     </div>
                     <div class="item">
-                        <img id="kjimg" alt="" src="https://p1-dcd.byteimg.com/img/tos-cn-i-0000/bd166b9e48454b83946ebc773c9ad92b~tplv-resize:640:0.png" />
+                        <img id="kjimg" alt="" src="" />
 
                         <div class="carousel-caption">
                             <h4>
@@ -169,6 +179,38 @@
     </div>
 </div>
 <script>
+    function getName(e){
+        var id=e.getAttribute("id");
+        $("#exampleInputEmail1").val(id);
+        $("#queryCar").click();
+    }
+    $("#exampleInputEmail1").on(" input propertychange",function(){
+        $.ajax({
+            // 设置请求方法
+            method: "GET",
+            // 请求地址
+            url: "http://49.234.63.219:8080/query/queryComplete",
+            //url: "http://localhost:8080/query/queryComplete",
+
+            // 配置发送请求数据格式，默认 urlencoded 值 如若发送 formData 数据，属性改为 false
+            contentType: "application/x-www-form-urlencoded",
+
+            // 请求数据
+            data: {
+                keyWord:$("#exampleInputEmail1").val()
+            },
+            // 配置接受数据格式 默认 json
+            dataType: "json",
+
+            // 请求成功
+            success: function (res) {
+                $("#ulid").empty();
+                $.each(res.cars,function(index,e){
+                    $("#ulid").append("<li style='list-style: none' >"+"<a href='#' id="+e+" onclick='getName(this)'>"+e+"</a>"+"</li>")
+                });
+            }
+        })
+    })
     $("#queryCar").click(function () {
         // 使用 jquery 中的 ajax 发请求
         $.ajax({
@@ -176,6 +218,7 @@
             method: "GET",
             // 请求地址
             url: "http://49.234.63.219:8080/query/car",
+            //url: "http://localhost:8080/query/car",
 
             // 配置发送请求数据格式，默认 urlencoded 值 如若发送 formData 数据，属性改为 false
             contentType: "application/x-www-form-urlencoded",
@@ -215,6 +258,9 @@
                 $("#s7").text(res.carConfigs[2].value);
                 $("#s8").text(res.carConfigs[3].value);
                 $("#s9").text(res.carsGroup[1].price);
+                $("#ulid").empty();
+                $("#tableid").show();
+                $("#imgid").show();
 /*                var $tr = $("<tr>"+
                     "<td>"+res.origin+"</td>"+
                     "<td>"+res.seriesName+"</td>"+

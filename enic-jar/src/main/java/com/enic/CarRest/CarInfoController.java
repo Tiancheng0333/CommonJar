@@ -22,6 +22,7 @@ public class CarInfoController {
 
     public static final String url="https://www.dongchedi.com/motor/searchapi/search_content/?keyword=";
 
+    public static final String completeUrl="https://www.dongchedi.com/motor/searchacl/complete?keyword=";
     @RequestMapping(value = "/car",method = RequestMethod.GET)
     public Object queryCarInfo(CarParam carParam) throws Exception {
         String urlTest="https://www.dongchedi.com/motor/searchapi/search_content/?keyword=%E5%A5%A5%E8%BF%AAA4l&offset=0&count=10&cur_tab=1&city_name=%E5%8D%97%E4%BA%AC&motor_source=pc&format=json";
@@ -84,6 +85,39 @@ public class CarInfoController {
         res.setNsName(String.valueOf(name1));
         res.setNsPicUrl(String.valueOf(nsUrl));
         return res;
+    }
+
+
+    @RequestMapping(value = "/queryComplete",method = RequestMethod.GET)
+    public Object queryComplete(String keyWord) throws Exception {
+        String encode = URLEncoder.encode(keyWord, "utf-8");
+        String apiUrl = url + encode;
+        String get = sendGet(apiUrl);
+        JSONObject parse = (JSONObject)JSONObject.parse(get);
+        JSONArray object = (JSONArray) parse.get("data");
+        if(object.size()>12){
+            return getCarBrand(object);
+        }
+        return getCarBrand(object);
+    }
+
+    public static CarBrand getCarBrand(JSONArray object){
+        JSONObject obj=null;
+        if(object.size()>12){
+            obj = (JSONObject)object.get(object.size()-1);
+        }else {
+            obj = (JSONObject)object.get(10);
+        }
+        JSONArray array = (JSONArray) obj.get("queries");
+        List<String> arrays=new ArrayList<>();
+        for (Object o : array) {
+            JSONObject obj2= (JSONObject) o;
+            Object text = obj2.get("text");
+            arrays.add(String.valueOf(text));
+        }
+        CarBrand carBrand=new CarBrand();
+        carBrand.setCars(arrays);
+        return carBrand;
     }
 
 
